@@ -1,0 +1,5 @@
+beautifulsoup4==4.9.3
+black==21.5b2
+Django==3.2.8
+model-bakery==1.3.2
+

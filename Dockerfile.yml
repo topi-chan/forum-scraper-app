@@ -1,0 +1,8 @@
+# syntax=docker/dockerfile:1
+FROM python:3.10.0-slim-buster
+ENV PYTHONUNBUFFERED 1
+WORKDIR /code
+COPY requirements.txt /
+RUN pip install -r /requirements.txt
+# COPY . /code/ -- for local development we mounted it explicitely so Django
+# can reload on code changes without rebuilding Docker
