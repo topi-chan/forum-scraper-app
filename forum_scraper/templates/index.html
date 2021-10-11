@@ -1,26 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl-PL">
     <head>
         <title>Forum Scraper</title>
     </head>
 
     <body>
-    <!-- Jinja2 Test
-    {% block content %}{% endblock content %} -->
-    <form action="/generate" method="post">
+    <form action="scrap_and_render_subforums" method="post"> {% csrf_token %}
   	<button type="submit" formmethod="post">Generuj fora</button>
     </form>
 </select>
 
-<!-- drop-down list of subforum tittles - combine with jinja2 (will it need db connection or 'life' scraping?)
- <label for="cars">Choose a car:</label>
 
-<select name="cars" id="cars">
-  <option value="volvo">Volvo</option>
-  <option value="saab">Saab</option>
-  <option value="mercedes">Mercedes</option>
-  <option value="audi">Audi</option>
-</select> -->
+ <label>Wybierz subforum:</label>
 
+<form action="links" method="POST" > {% csrf_token %}
+<select name="subforum" id="subforum">
+     {% for key, value in subforum_dict.items %}
+        <option value="{{value}}"
+        >
+        {{key}}
+        </option>
+    {% endfor %}
+</select>
+    <input type="submit" value="Submit">
+</form>
     </body>
 </html>

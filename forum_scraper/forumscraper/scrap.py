@@ -9,7 +9,7 @@ class Scraper:
         self.url = url
         self.paragraphs = []
         self.headers = {
-            "User-Agent": self.get_random_user_agent("user-agent-list.txt"),
+            "User-Agent": 'sample ua', # self.get_random_user_agent("user-agent-list.txt") - make work with Django TODO: separate UA function in helpers and refactor
             "Accept-Language": "en-gb",
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
             "Accept-Encoding": "gzip, deflate, br",
@@ -51,11 +51,3 @@ class Scraper:
     def list_to_string(bs4_content: BeautifulSoup) -> str:
         str1 = " "
         return str1.join(bs4_content)
-
-
-# example: Saab forum
-scraper = Scraper("http://saabotage.pl/")
-response = scraper.get_response()
-scraper.get_subpages_from_request(response, "a", "forumlink")
-d = scraper.get_tittles_and_links()
-print(d)
