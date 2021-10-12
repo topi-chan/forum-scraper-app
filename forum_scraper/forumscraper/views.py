@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView
 from .scrap import Scraper
-from .forum_format import create_topics_list
+from .forum_format import create_sorted_and_capitalized_topics_list
 
 
 class IndexPageView(TemplateView):
@@ -31,6 +31,5 @@ def render_link(request):
     topics_dict = scraper.get_tittles_and_links()
     for topic, link in topics_dict.items():
         topics_dict[topic] = ("http://saabotage.pl" + link.lstrip("."))
-    context = {"topics_list": create_topics_list(topics_dict)}
+    context = {"topics_list": create_sorted_and_capitalized_topics_list(topics_dict)}
     return render(request, "index.html", context)
-

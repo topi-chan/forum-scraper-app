@@ -10,7 +10,7 @@
     </form>
 </select>
 
-
+    {% if subforum_dict %}
  <label>Wybierz subforum:</label>
 
 <form action="links" method="POST" > {% csrf_token %}
@@ -23,6 +23,7 @@
     {% endfor %}
 </select>
     <input type="submit" value="Submit">
+        {% endif %}
 </form>
 
 {% if topics_list %}
