@@ -24,5 +24,15 @@
 </select>
     <input type="submit" value="Submit">
 </form>
+
+{% if topics_list %}
+    <ol>
+    {% for item in topics_list %}
+       <li>
+           {{item}}
+       </li>
+    {% endfor %}
+        </ol>
+{% endif %}
     </body>
 </html>
