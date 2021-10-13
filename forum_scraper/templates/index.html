@@ -13,7 +13,7 @@
     {% if subforum_dict %}
  <label>Wybierz subforum:</label>
 
-<form action="links" method="POST" > {% csrf_token %}
+<form action="links" method="POST"> {% csrf_token %}
 <select name="subforum" id="subforum">
      {% for key, value in subforum_dict.items %}
         <option value="{{value}}"
@@ -22,7 +22,7 @@
         </option>
     {% endfor %}
 </select>
-    <input type="submit" value="Submit">
+    <button name="submit" type="submit">Wyślij</button>
         {% endif %}
 </form>
 
