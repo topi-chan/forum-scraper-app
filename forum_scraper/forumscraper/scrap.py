@@ -1,4 +1,5 @@
 import random
+import os
 
 import requests
 from bs4 import BeautifulSoup
@@ -9,7 +10,7 @@ class Scraper:
         self.url = url
         self.paragraphs = []
         self.headers = {
-            "User-Agent": 'sample ua', # self.get_random_user_agent("user-agent-list.txt") - make work with Django TODO: separate UA function in helpers and refactor
+            "User-Agent": self.get_random_user_agent('user-agent-list.txt'),
             "Accept-Language": "en-gb",
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
             "Accept-Encoding": "gzip, deflate, br",
@@ -19,7 +20,8 @@ class Scraper:
 
     @staticmethod
     def get_random_user_agent(user_agent_list_file: str) -> str:
-        user_agent = random.choice(open(user_agent_list_file).readlines())
+        pwd = os.path.dirname(__file__)
+        user_agent = random.choice(open(pwd + "/" + user_agent_list_file).readlines())
         return user_agent.strip()
 
     def get_response(self) -> requests.Response:

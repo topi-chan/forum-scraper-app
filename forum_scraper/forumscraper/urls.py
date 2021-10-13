@@ -1,5 +1,4 @@
 from django.urls import path
-from . import views
 from .views import IndexPageView, make_redirect, ScrapedSubforum, render_link
 
 urlpatterns = [
