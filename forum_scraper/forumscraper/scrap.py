@@ -29,7 +29,7 @@ class Scraper:
         # for IP read: print(request.raw._connection.sock.getsockname())
         return response
 
-    def get_subpages_from_request(
+    def get_subpages_from_response(
         self, response: requests.Response, class_type: str, class_name: str = None
     ) -> list:
         soup = BeautifulSoup(response.text, "html.parser")

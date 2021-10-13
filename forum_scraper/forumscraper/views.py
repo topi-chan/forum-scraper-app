@@ -15,7 +15,7 @@ class ScrapedSubforum(IndexPageView):
         context = super(IndexPageView, self).get_context_data(**kwargs)
         scraper = Scraper("http://saabotage.pl/")
         response = scraper.get_response()
-        scraper.get_subpages_from_request(response, "a", "forumlink")
+        scraper.get_subpages_from_response(response, "a", "forumlink")
         context['subforum_dict'] = scraper.get_tittles_and_links()
         return context
 
@@ -40,18 +40,18 @@ def render_link(request):
     full_topics_dict = {}
     while True:
         response = scraper.get_response()
-        scraper.get_subpages_from_request(response, "a", "topictitle")
+        scraper.get_subpages_from_response(response, "a", "topictitle")
         topics_dict = scraper.get_tittles_and_links()
         full_topics_dict |= topics_dict
         scraper.paragraphs = []
-        scraper.get_subpages_from_request(response, "a")
+        scraper.get_subpages_from_response(response, "a")
         link_lib = scraper.get_tittles_and_links()
         for tittle, link in link_lib.items():
             match tittle:
                 case "Następna strona":
                     next_page = "http://saabotage.pl" + link.lstrip(".")
                     print(next_page)
-                    scraper.url = next_page
+                    scraper = Scraper(next_page)
                     print(full_topics_dict)
                     continue
                 case _:
