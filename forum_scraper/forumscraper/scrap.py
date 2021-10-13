@@ -45,21 +45,3 @@ class Scraper:
     def list_to_string(bs4_content: BeautifulSoup) -> str:
         string_content = " "
         return string_content.join(bs4_content)
-
-    def read_link_for_iteration(self, url: str, link_tittle: str) -> str:
-        url_for_iteration = url
-        scraper = Scraper(url_changes)
-        return changed_link
-
-
-
-#all_links = scraper.get_subpages_from_request(response, "a")
-
-
-# class Iterator(Scraper):
-#
-#     @staticmethod
-#     def read_link_for_iteration(url: str, link_tittle: str) -> str:
-#         url_for_iteration = url
-#         scraper = Scraper(url_changes)
-#         return changed_link
