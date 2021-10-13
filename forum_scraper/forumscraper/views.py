@@ -24,17 +24,6 @@ def make_redirect(request):
     return redirect('scraped')
 
 
-# def render_link(request):
-#     scraper = Scraper("http://saabotage.pl/" + request.POST['subforum'].lstrip("."))
-#     response = scraper.get_response()
-#     scraper.get_subpages_from_request(response, "a", "topictitle")
-#     topics_dict = scraper.get_tittles_and_links()
-#     for topic, link in topics_dict.items():
-#         topics_dict[topic] = ("http://saabotage.pl" + link.lstrip("."))
-#     context = {"topics_list": create_sorted_and_capitalized_topics_list(topics_dict)}
-#     return render(request, "index.html", context)
-
-
 def render_link(request):
     scraper = Scraper("http://saabotage.pl/" + request.POST['subforum'].lstrip("."))
     full_topics_dict = {}
@@ -46,17 +35,13 @@ def render_link(request):
         scraper.paragraphs = []
         scraper.get_subpages_from_response(response, "a")
         link_lib = scraper.get_tittles_and_links()
+        if link_lib.get('Następna strona') is None:
+            break
         for tittle, link in link_lib.items():
             match tittle:
                 case "Następna strona":
                     next_page = "http://saabotage.pl" + link.lstrip(".")
-                    print(next_page)
                     scraper = Scraper(next_page)
-                    print(full_topics_dict)
-                    continue
-                case _:
-                    print('x')
-        break
     for topic, link in full_topics_dict.items():
         full_topics_dict[topic] = ("http://saabotage.pl" + link.lstrip("."))
     context = {"topics_list": create_sorted_and_capitalized_topics_list(full_topics_dict)}
