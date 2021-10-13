@@ -16,10 +16,6 @@ class Scraper:
             "Referer": "https://www.google.com",
             "Pragma": "no-cache",
         }
-        # self.proxies = {
-        #     'http': 'http://10.10.1.10:example',
-        #     'https': 'http://10.10.1.10:example',
-        # }
 
     @staticmethod
     def get_random_user_agent(user_agent_list_file: str) -> str:
@@ -40,8 +36,6 @@ class Scraper:
         div = soup(class_type, class_name)
         for elem in div:
             self.paragraphs.append(elem)
-        # for paragraph in self.paragraphs:
-        #     print(paragraph.get_text(), ":   ", paragraph.get("href"))
         return self.paragraphs
 
     def get_tittles_and_links(self) -> dict:
@@ -49,5 +43,23 @@ class Scraper:
 
     @staticmethod
     def list_to_string(bs4_content: BeautifulSoup) -> str:
-        str1 = " "
-        return str1.join(bs4_content)
+        string_content = " "
+        return string_content.join(bs4_content)
+
+    def read_link_for_iteration(self, url: str, link_tittle: str) -> str:
+        url_for_iteration = url
+        scraper = Scraper(url_changes)
+        return changed_link
+
+
+
+#all_links = scraper.get_subpages_from_request(response, "a")
+
+
+# class Iterator(Scraper):
+#
+#     @staticmethod
+#     def read_link_for_iteration(url: str, link_tittle: str) -> str:
+#         url_for_iteration = url
+#         scraper = Scraper(url_changes)
+#         return changed_link

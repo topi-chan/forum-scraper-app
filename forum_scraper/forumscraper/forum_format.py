@@ -17,4 +17,3 @@ def create_sorted_and_capitalized_topics_list(topics_dict: dict) -> list:
         topics_list_element = '<a href = "{}" > {} < / a >'.format(tittle, link)
         topics_list.append(topics_list_element)
     return topics_list
-
