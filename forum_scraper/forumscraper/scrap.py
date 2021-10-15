@@ -1,5 +1,6 @@
 import random
 import os
+from typing import List
 
 import requests
 from bs4 import BeautifulSoup
@@ -7,8 +8,8 @@ from bs4 import BeautifulSoup
 
 class Scraper:
     def __init__(self, url: str):
-        self.url = url
-        self.paragraphs = []
+        self.url: str = url
+        self.paragraphs: List[BeautifulSoup] = []
         self.headers = {
             "User-Agent": self.get_random_user_agent('user-agent-list.txt'),
             "Accept-Language": "en-gb",
@@ -19,26 +20,23 @@ class Scraper:
         }
 
     @staticmethod
-    def get_random_user_agent(user_agent_list_file: str) -> str:
+    def get_random_user_agent(user_agent_list_filename: str) -> str:
         pwd = os.path.dirname(__file__)
-        user_agent = random.choice(open(pwd + "/" + user_agent_list_file).readlines())
+        user_agent = random.choice(open(pwd + "/" + user_agent_list_filename).readlines())
         return user_agent.strip()
 
     def get_response(self) -> requests.Response:
         response = requests.get(
             self.url, headers=self.headers
         )  # for IP read add: stream=True
-        # for IP read: print(request.raw._connection.sock.getsockname())
+        # for IP read: print(request.raw._connection.sock.getsockname()) - to doctstring
         return response
 
-    def get_subpages_from_response(
-        self, response: requests.Response, class_type: str, class_name: str = None
-    ) -> list:
+    def get_subpages_from_response(self, response: requests.Response, class_type: str, class_name: str = None):
         soup = BeautifulSoup(response.text, "html.parser")
         div = soup(class_type, class_name)
         for elem in div:
             self.paragraphs.append(elem)
-        return self.paragraphs
 
     def get_tittles_and_links(self) -> dict:
         return {paragraph.get_text(): paragraph.get("href") for paragraph in self.paragraphs}
