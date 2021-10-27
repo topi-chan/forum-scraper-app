@@ -6,7 +6,6 @@ from forumscraper.scrap import Scraper
 from forumscraper.forum_format import create_sorted_and_capitalized_topics_list
 
 
-
 def make_redirect_advanced(request):
     return redirect(reverse('advanced_forumscraper:scraped'))
 
@@ -24,6 +23,7 @@ class AdvancedScrapedSubforumChoose(ScrapedSubforum):
         response = scraper.get_response()
         scraper.get_subpages_from_response(response, "h4")
         context['subforum_dict'] = scraper.get_tittles_and_links()
+        context['sub_level'] = 1
         return context
 
 
