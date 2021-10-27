@@ -13,7 +13,12 @@
     {% if subforum_dict %}
  <label>Wybierz subforum:</label>
 
-<form action="links" method="POST"> {% csrf_token %}
+{% if sub_level == 1 %}
+    <form action="subsubfora" method="POST">
+{% else %}
+<form action="links" method="POST">
+    {% endif %}
+    {% csrf_token %}
 <select name="subforum" id="subforum">
      {% for key, value in subforum_dict.items %}
         <option value="{{value}}"
@@ -35,8 +40,5 @@
     {% endfor %}
         </ol>
 {% endif %}
-    {% if sub_level == 1 %}
-    enter hyperspeed!!!
-    {% endif %}
     </body>
 </html>
