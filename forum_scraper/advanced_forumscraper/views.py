@@ -1,4 +1,6 @@
+from django.http import HttpResponse
 from django.shortcuts import redirect, reverse, render
+from django.views.generic import View
 from forumscraper.views import IndexPageView, ScrapedSubforum
 from forumscraper.scrap import Scraper
 from forumscraper.forum_format import create_sorted_and_capitalized_topics_list
@@ -19,8 +21,10 @@ def make_redirect_advanced(request):
     return redirect(reverse('advanced_forumscraper:scraped'))
 
 
-class AdvancedScrapedSubSubforum(AdvancedScrapedSubforum):
-    pass
+class AdvancedScrapedSubforumChoose(View):
+
+    def get(self, request, *args, **kwargs):
+        return HttpResponse('Here subforum list goes')
 
 
 def make_redirect_advanced2(request):
