@@ -10,12 +10,7 @@ def make_redirect_advanced(request):
     return redirect(reverse('advanced_forumscraper:scraped'))
 
 
-# class AdvancedScrapedSubforumChoose(View):
-#
-#     def get(self, request, *args, **kwargs):
-#         return HttpResponse('Here subforum list goes')
-
-class AdvancedScrapedSubforumChoose(ScrapedSubforum):
+class AdvancedScrapedSubforumChoose(IndexPageView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexPageView, self).get_context_data(**kwargs)
@@ -27,19 +22,29 @@ class AdvancedScrapedSubforumChoose(ScrapedSubforum):
         return context
 
 
-class AdvancedScrapedSubforum(ScrapedSubforum):
+def advanced_scraped_subforum(request):
+    scraper = Scraper("http://saabotage.pl/" + request.POST['subforum'].lstrip("."))
+    print(request.POST['subforum'])
+    response = scraper.get_response()
+    scraper.get_subpages_from_response(response, "a", "forumlink")
+    context = {'subforum_dict': scraper.get_tittles_and_links()}
+    return render(request, "index.html", context)
 
-    # def __init__(self):
-    #     self.subforum_address = ""
-    #     super().__init__()
-    #
-    # def post(self, request, *args, **kwargs):
-    #     self.subforum_address = request.POST['subforum']
-    #     return self.subforum_address
+
+class AdvancedScrapedSubforum(IndexPageView):
+
+    def __init__(self):
+        self.subforum_address = ""
+        super().__init__()
+
+    def post(self, request, *args, **kwargs):
+        self.subforum_address = request.POST['subforum']
+        return HttpResponse(self.subforum_address)
 
     def get_context_data(self, **kwargs):
+        print('xxx', self.request.POST)
         context = super(IndexPageView, self).get_context_data(**kwargs)
-        scraper = Scraper("http://saabotage.pl/" + self.request.POST['subforum'].lstrip("."))
+        scraper = Scraper("http://saabotage.pl/" + self.subforum_address.lstrip("."))
         response = scraper.get_response()
         scraper.get_subpages_from_response(response, "a", "forumlink")
         context['subforum_dict'] = scraper.get_tittles_and_links()
