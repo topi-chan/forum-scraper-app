@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, reverse, render
-from django.views.generic import View
+from django.views.generic import RedirectView
 from forumscraper.views import IndexPageView, ScrapedSubforum
 from forumscraper.scrap import Scraper
 from forumscraper.forum_format import create_sorted_and_capitalized_topics_list
@@ -18,7 +18,8 @@ class AdvancedScrapedSubforumChoose(IndexPageView):
         response = scraper.get_response()
         scraper.get_subpages_from_response(response, "h4")
         context['subforum_dict'] = scraper.get_tittles_and_links()
-        context['sub_level'] = 1
+        context['sub_level'] = 0
+        print(context)
         return context
 
 
@@ -31,24 +32,25 @@ def advanced_scraped_subforum(request):
     return render(request, "index.html", context)
 
 
-class AdvancedScrapedSubforum(IndexPageView):
+class AdvancedScrapedSubforum(RedirectView):
 
-    def __init__(self):
-        self.subforum_address = ""
-        super().__init__()
+    # def __init__(self):
+    #     self.subforum_address = ""
+    #     super().__init__()
 
     def post(self, request, *args, **kwargs):
-        self.subforum_address = request.POST['subforum']
+        self.subforum_address = self.request.POST['subforum']
+        print('xxx', self.request.__dict__)
         return HttpResponse(self.subforum_address)
 
-    def get_context_data(self, **kwargs):
-        print('xxx', self.request.POST)
-        context = super(IndexPageView, self).get_context_data(**kwargs)
-        scraper = Scraper("http://saabotage.pl/" + self.subforum_address.lstrip("."))
-        response = scraper.get_response()
-        scraper.get_subpages_from_response(response, "a", "forumlink")
-        context['subforum_dict'] = scraper.get_tittles_and_links()
-        return context
+    # def get_context_data(self, **kwargs):
+    #     print('xxx', self.request.POST)
+    #     context = super(IndexPageView, self).get_context_data(**kwargs)
+    #     scraper = Scraper("http://saabotage.pl/" + self.subforum_address.lstrip("."))
+    #     response = scraper.get_response()
+    #     scraper.get_subpages_from_response(response, "a", "forumlink")
+    #     context['subforum_dict'] = scraper.get_tittles_and_links()
+    #     return context
 
 
 def make_redirect_advanced2(request):
